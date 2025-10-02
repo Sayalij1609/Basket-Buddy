@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OfferMandi - Smart Grocery Offer Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, #1a2a3a, #2c3e50);
+            color: white;
+            padding: 20px 0;
+            height: 100vh;
+            position: fixed;
+            transition: all 0.3s;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header h1 {
+            color: #f8c537;
+            margin-bottom: 5px;
+            font-size: 1.8rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar-header p {
+            color: #ecf0f1;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .sidebar-menu h3 {
+            color: #f8c537;
+            padding: 0 20px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-menu ul {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 5px 10px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-menu li:before {
+            content: "→";
+            margin-right: 10px;
+            color: #f8c537;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .sidebar-menu li:hover {
+            background: rgba(248, 197, 55, 0.1);
+            transform: translateX(5px);
+            color: #f8c537;
+        }
+
+        .sidebar-menu li:hover:before {
+            opacity: 1;
+        }
+
+        .sidebar-menu li.active {
+            background: linear-gradient(90deg, #f8c537, #f39c12);
+            color: #1a2a3a;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(248, 197, 55, 0.3);
+        }
+
+        .sidebar-menu li.active:before {
+            opacity: 1;
+            color: #1a2a3a;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            min-height: 100vh;
+            background: url('bg.jpeg') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align:;
+            padding: 20px;
+            position: relative;
+        }
+
+        
+        .welcome-section {
+            max-width: 800px;
+            right: 100px;
+            padding: 40px;
+            border-radius: 10px;
+            position: relative;
+            z-index: 1;
+            
+          
+        }
+
+        .welcome-section h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #f8c537;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .welcome-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #000000;
+            font-weight: 300;
+        }
+
+        .welcome-section p {
+            margin-bottom: 30px;
+            line-height: 1.8;
+            color: #010101;
+            font-size: 1.3rem;
+        }
+
+        .features {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        
+        .feature-card h3 {
+            color: #f39c12;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .feature-card p {
+            color: #555;
+            font-size: 1rem;
+        }
+
+        .login-form {
+            display: none;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            width: 350px;
+            margin-top: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            color: #2c3e50;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .login-form h2 {
+            margin-bottom: 20px;
+            color: #f39c12;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+
+        .form-group input:focus {
+            border-color: #f39c12;
+            box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.2);
+            outline: none;
+        }
+
+        .login-btn {
+            background: linear-gradient(90deg, #f8c537, #f39c12);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(90deg, #f39c12, #e67e22);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
+        }
+        
+          .register-link {
+            margin-top: 15px;
+            text-align: center;
+            color: #555;
+        }
+
+        .register-link a {
+            color: #f39c12;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+            .feature-card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>OfferMandi</h1>
+            <p>Your Smart Partner for Local Grocery Deals!</p>
+        </div>
+        <div class="sidebar-menu">
+            <h3>Login Options</h3>
+            <ul>
+                <li class="active" onclick="showWelcome()">Home</li>
+                <li onclick="showLoginForm('admin')">Admin Login</li>
+                <li onclick="showLoginForm('advertiser')">Advertiser Login</li>
+                <li onclick="showLoginForm('user')">User Login</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="welcome-section" id="welcome-section">
+            <h1>OfferMandi</h1>
+            <h2>Your Smart Partner for Local Grocery Deals!</h2>
+            <p>Welcome to the Future of Local Grocery Shopping.Connect local grocery <br>stores with smart shoppers.Discover amazing deals, <br>manage offers, and build a thriving community around fresh, local produce.</p>
+        
+        </div>
+
+        <div class="login-form" id="admin-login">
+            <h2>Admin Login</h2>
+            <form action = "Admin_login">
+                <div class="form-group">
+                    <label for="admin-username">Email</label>
+                    <input type="text" id="admin-username" name = "email" placeholder="Enter email address" required>
+                </div>
+                <div class="form-group">
+                    <label for="admin-password">Password</label>
+                    <input type="password" id="admin-password" name = "password" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+                <p class="register-link">Don't have an account? <a href="admin_register.html">Register here</a></p>
+            </form>
+        </div>
+
+        <div class="login-form" id="advertiser-login">
+            <h2>Advertiser Login</h2>
+            <form action = "Advertiser_login">
+                <div class="form-group">
+                    <label for="advertiser-username">Email</label>
+                    <input type="text" id="advertiser-username" name = "aemail" placeholder="Enter email address" required>
+                </div>
+                <div class="form-group">
+                    <label for="advertiser-password">Password</label>
+                    <input type="password" id="advertiser-password" name = "apassword" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+                <p class="register-link">Don't have an account? <a href="advertiser_register.html">Register here</a></p>
+            </form>
+        </div>
+
+        <div class="login-form" id="user-login">
+            <h2>User Login</h2>
+            <form action = "User_login">
+                <div class="form-group">
+                    <label for="user-username">Email</label>
+                    <input type="text" id="user-username" name = "uemail" placeholder="email address" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-password">Password</label>
+                    <input type="password" id="user-password" name = "upassword" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+                <p class="register-link">Don't have an account? <a href="user_register.html">Register here</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showLoginForm(role) {
+            // Hide all forms and welcome section
+            document.getElementById('welcome-section').style.display = 'none';
+            document.getElementById('admin-login').style.display = 'none';
+            document.getElementById('advertiser-login').style.display = 'none';
+            document.getElementById('user-login').style.display = 'none';
+            
+            // Show the selected form
+            document.getElementById(role + '-login').style.display = 'block';
+            
+            // Update active menu item
+            const menuItems = document.querySelectorAll('.sidebar-menu li');
+            menuItems.forEach(item => item.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function showWelcome() {
+            // Hide all forms
+            document.getElementById('admin-login').style.display = 'none';
+            document.getElementById('advertiser-login').style.display = 'none';
+            document.getElementById('user-login').style.display = 'none';
+            
+            // Show welcome section
+            document.getElementById('welcome-section').style.display = 'block';
+            
+            // Update active menu item
+            const menuItems = document.querySelectorAll('.sidebar-menu li');
+            menuItems.forEach(item => item.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
